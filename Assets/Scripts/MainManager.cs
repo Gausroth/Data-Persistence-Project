@@ -23,7 +23,14 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        BestScoreText.text = "Best Score: " + PlayerManager.Instance.PlayerName + ": " + PlayerManager.Instance.BestScore;
+        if(PlayerManager.Instance.BestScoreName != null)
+        {
+            BestScoreText.text = "Best Score: " + PlayerManager.Instance.BestScoreName + ": " + PlayerManager.Instance.BestScore;
+        }
+        else
+        {
+            BestScoreText.text = "Best Score: " + PlayerManager.Instance.PlayerName + ": " + PlayerManager.Instance.BestScore;
+        }
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
 
@@ -57,10 +64,11 @@ public class MainManager : MonoBehaviour
         }
         else if (m_GameOver)
         {
-            PlayerManager.Instance.SavePlayerScore();
             if (m_Points > PlayerManager.Instance.BestScore)
             {
                 PlayerManager.Instance.BestScore = m_Points;
+                PlayerManager.Instance.BestScoreName = PlayerManager.Instance.PlayerName;
+                PlayerManager.Instance.SavePlayerScore();
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {

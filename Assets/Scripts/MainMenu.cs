@@ -9,9 +9,16 @@ public class MainMenu : MonoBehaviour
     public TMP_InputField Input;
     public void NewPlayerName(TMP_InputField Input)
     {
-        string PlayerName = Input.text;
-        PlayerManager.Instance.PlayerName = PlayerName;
-        SceneManager.LoadScene(1);
+        if(Input.text == "")
+        {
+            return;
+        }
+        else
+        {
+            string PlayerName = Input.text;
+            PlayerManager.Instance.PlayerName = PlayerName;
+            SceneManager.LoadScene(1);
+        }
     }
 
     public void Start()

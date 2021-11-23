@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public string PlayerName;
+    public string BestScoreName;
     public int BestScore;
 
     public static PlayerManager Instance;
@@ -26,14 +27,14 @@ public class PlayerManager : MonoBehaviour
     [System.Serializable]
     class SaveData
     {
-        public string PlayerName;
+        public string BestScoreName;
         public int BestScore;
     }
 
     public void SavePlayerScore()
     {
         SaveData data = new SaveData();
-        data.PlayerName = PlayerName;
+        data.BestScoreName = PlayerName;
         data.BestScore = BestScore;
 
         string json = JsonUtility.ToJson(data);
@@ -49,8 +50,20 @@ public class PlayerManager : MonoBehaviour
             string json = File.ReadAllText(path);
             SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-            PlayerName = data.PlayerName;
+            BestScoreName = data.BestScoreName;
             BestScore = data.BestScore;
+        }
+    }
+
+    public void DeletePlayerScore()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+
+            BestScoreName = "";
+            BestScore = 0;
         }
     }
 }
